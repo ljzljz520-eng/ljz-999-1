@@ -1,0 +1,11 @@
+{
+  "name": "auto-parts-tracker",
+  "version": "1.0.0",
+  "description": "汽配条码追踪接口站：柜台扫码核验批次/车型/货架/供应商/召回，离线 TTL 缓存，风险批次自动挂起",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": { "node": ">=18" },
+  "license": "MIT"
+}

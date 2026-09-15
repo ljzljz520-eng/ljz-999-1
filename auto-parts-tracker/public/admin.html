@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>后台管理 · 汽配条码追踪</title>
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<header>
+  <div>
+    <h1>🛡️ 汽配条码追踪 · 后台管理</h1>
+    <div class="sub">批次挂起 / 恢复 · 召回标记 · 问题流水（连续 3 次问题自动挂起）</div>
+  </div>
+  <div style="display:flex;gap:8px;align-items:center">
+    <span id="netBadge" class="badge online"><span class="dot"></span><span id="netText">在线</span></span>
+    <a href="/" class="badge" style="text-decoration:none">← 柜台扫码</a>
+  </div>
+</header>
+
+<main>
+  <section class="panel">
+    <h2>批次管理</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>批次号</th><th>供应商</th><th>生产/入库</th><th>状态</th>
+          <th>问题（累计/连续）</th><th>挂起原因</th><th>操作</th>
+        </tr>
+      </thead>
+      <tbody id="batchBody"></tbody>
+    </table>
+  </section>
+
+  <section class="panel">
+    <h2>配件与召回</h2>
+    <table>
+      <thead>
+        <tr><th>条码</th><th>配件</th><th>所属批次</th><th>货架</th><th>召回</th><th>操作</th></tr>
+      </thead>
+      <tbody id="partBody"></tbody>
+    </table>
+  </section>
+
+  <section class="panel">
+    <h2>问题上报流水</h2>
+    <table>
+      <thead>
+        <tr><th>#</th><th>时间</th><th>条码 / 配件</th><th>批次</th><th>类型</th><th>描述</th><th>来源</th><th>备注</th></tr>
+      </thead>
+      <tbody id="issueBody"></tbody>
+    </table>
+  </section>
+</main>
+
+<div id="toast" class="toast"></div>
+<script src="/admin.js"></script>
+</body>
+</html>

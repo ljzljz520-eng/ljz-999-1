@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>柜台扫码 · 汽配条码追踪</title>
+<link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+<header>
+  <div>
+    <h1>🔧 汽配条码追踪 · 柜台扫码</h1>
+    <div class="sub">扫配件条码，查看批次 / 适配车型 / 货架 / 供应商 / 召回状态</div>
+  </div>
+  <div style="display:flex;gap:8px;align-items:center">
+    <span id="netBadge" class="badge online"><span class="dot"></span><span id="netText">在线</span></span>
+    <a href="/admin" class="badge" style="text-decoration:none">后台管理 →</a>
+  </div>
+</header>
+
+<main>
+  <div id="outboxBar" class="outbox-bar">
+    <span id="outboxText">有 0 条问题上报暂存本机，联网后自动补传</span>
+    <button class="sm primary" id="flushBtn">立即补传</button>
+  </div>
+
+  <section class="panel">
+    <h2>扫码 / 输入条码</h2>
+    <div class="scan-row">
+      <input type="text" id="codeInput" placeholder="扫码枪扫描后自动回车，或手动输入条码，如 BP-0003-01" autocomplete="off" autofocus>
+      <button class="primary" id="scanBtn">查询</button>
+    </div>
+    <div class="hint">示例条码（种子数据）：BP-0001-01 机油滤 · BP-0002-01 刹车片 ·
+      <b>BP-0003-01 火花塞（已召回）</b> · BP-0004-01 空气滤 · BP-0005-01 正时皮带</div>
+    <div class="demo-toggle">
+      <input type="checkbox" id="demoOffline">
+      <label for="demoOffline">离线演示模式（拦截网络请求，用于测试 TTL 缓存与风险快照，不影响真实联网状态）</label>
+    </div>
+  </section>
+
+  <div id="cacheNote" class="cache-note"></div>
+  <div id="riskBanner" class="risk-banner"></div>
+
+  <section class="panel" id="detailPanel" style="display:none">
+    <h2>配件信息 <span id="scanMeta" class="muted small" style="float:right"></span></h2>
+    <div class="detail-grid">
+      <div class="field"><label>配件条码</label><div class="val" id="fCode"></div></div>
+      <div class="field"><label>名称 / 品牌</label><div class="val" id="fName"></div></div>
+      <div class="field full"><label>适配车型</label><div class="val" id="fModels"></div></div>
+      <div class="field"><label>货架位置</label><div class="val" id="fLocation"></div></div>
+      <div class="field"><label>召回状态</label><div class="val" id="fRecall"></div></div>
+      <div class="field"><label>批次号</label><div class="val" id="fBatchId"></div></div>
+      <div class="field"><label>批次状态</label><div class="val" id="fBatchStatus"></div></div>
+      <div class="field full"><label>供应商 / 联系方式</label><div class="val" id="fSupplier"></div></div>
+      <div class="field"><label>生产日期</label><div class="val" id="fProdDate"></div></div>
+      <div class="field"><label>入库日期</label><div class="val" id="fInboundDate"></div></div>
+      <div class="field full"><label>批次质量问题记录</label><div class="val" id="fIssueStats"></div></div>
+    </div>
+
+    <div class="issue-box">
+      <select id="issueType">
+        <option value="quality">质量缺陷</option>
+        <option value="package">包装破损</option>
+        <option value="wrong">型号不符</option>
+        <option value="fake">疑似假货</option>
+        <option value="other">其他问题</option>
+      </select>
+      <input type="text" id="issueNote" placeholder="问题描述（可选），回车提交">
+      <button class="danger" id="reportBtn">上报该件问题</button>
+    </div>
+  </section>
+
+  <section class="panel">
+    <h2>本次扫码历史（本机）</h2>
+    <table>
+      <thead><tr><th>时间</th><th>条码</th><th>配件</th><th>结果</th><th>来源</th></tr></thead>
+      <tbody id="historyBody"></tbody>
+    </table>
+  </section>
+</main>
+
+<div id="toast" class="toast"></div>
+<script src="/app.js"></script>
+</body>
+</html>
